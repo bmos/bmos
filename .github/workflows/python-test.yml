@@ -6,7 +6,11 @@ on:
       src_folder: { required: true, type: string }
       test_folder: { required: true, type: string }
       run_coverage: { type: boolean, default: true }
-        
+      python_version:
+        required: false
+        type: string
+        default: "['3.11', '3.12', '3.13', '3.14']"
+
 permissions: read-all
 
 jobs:
@@ -14,11 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version:
-          - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
+        python-version: ${{ fromJson(inputs.python_version) }}
         os:
           - ubuntu-latest
           - windows-latest
