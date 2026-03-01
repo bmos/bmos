@@ -10,7 +10,8 @@ on:
       run_ruff-format: { type: boolean, default: true }
       run_bandit: { type: boolean, default: true }
       run_pre-commit: { type: boolean, default: true }
-        
+      python-version: { type: string, default: '3.13' }
+
 permissions: read-all
 
 jobs:
@@ -35,7 +36,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: 3.13
+          python-version: ${{ inputs.python-version }}
           activate-environment: true
           cache-dependency-glob: |
             **/pyproject.toml
@@ -72,9 +73,9 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ inputs.python-version }}
           activate-environment: true
           cache-dependency-glob: |
             **/pyproject.toml
@@ -118,7 +119,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ inputs.python-version }}
           activate-environment: true
           cache-dependency-glob: |
             **/pyproject.toml
@@ -171,7 +172,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ inputs.python-version }}
           activate-environment: true
           cache-dependency-glob: |
             **/pyproject.toml
@@ -216,7 +217,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ inputs.python-version }}
           activate-environment: true
           cache-dependency-glob: |
             **/pyproject.toml
@@ -271,7 +272,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ inputs.python-version }}
           activate-environment: true
           cache-dependency-glob: |
             **/pyproject.toml
