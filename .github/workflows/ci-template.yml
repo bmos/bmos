@@ -3,12 +3,8 @@ name: Python checks
 on:
   workflow_call:
     inputs:
-      src_folder:
-        required: true
-        type: string
-      test_folder:
-        required: true
-        type: string
+      src_folder: { required: true, type: string }
+      test_folder: { required: true, type: string }
 
 permissions: read-all
 
