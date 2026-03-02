@@ -91,7 +91,7 @@ jobs:
           path: .mypy_cache
           key: ${{ runner.os }}-mypy-${{ hashFiles('pyproject.toml') }}
 
-      - run: mypy .
+      - run: mypy ${{ inputs.src_folder }}
 
   ruff-check:
     if: ${{ inputs.run_ruff-check }}
