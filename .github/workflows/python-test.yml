@@ -6,6 +6,7 @@ on:
       src_folder: { required: true, type: string }
       test_folder: { required: true, type: string }
       run_coverage: { type: boolean, default: true }
+      install_patchright: { type: boolean, default: false }
       python_version:
         required: false
         type: string
@@ -33,7 +34,7 @@ jobs:
     steps:
       - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
         with:
-          disable-sudo: true
+          disable-sudo: ${{ !inputs.install_patchright }}
           egress-policy: block
           allowed-endpoints: >
             pypi.org:443
@@ -60,6 +61,7 @@ jobs:
           --resolution ${{ matrix.resolution }}
 
       - run: patchright install chrome
+        if: ${{ inputs.install_patchright }}
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
