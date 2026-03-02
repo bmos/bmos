@@ -52,7 +52,12 @@ jobs:
             **/pyproject.toml
             **/uv.lock
 
-      - run: uv pip install --resolution ${{ matrix.resolution }} -e .[dev]
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group test
+          --resolution ${{ matrix.resolution }}
 
       - run: patchright install chrome
 
