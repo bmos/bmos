@@ -12,8 +12,6 @@ on:
       run_pre-commit: { type: boolean, default: true }
       python_version: { type: string, default: '3.13' }
 
-permissions: read-all
-
 jobs:
   ssort:
     if: ${{ inputs.run_ssort }}
