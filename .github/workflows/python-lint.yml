@@ -1,0 +1,267 @@
+name: Python checks
+
+on:
+  workflow_call:
+    inputs:
+      src_folder: { type: string, default: 'src' }
+      run_ssort: { type: boolean, default: true }
+      run_mypy: { type: boolean, default: true }
+      run_ruff-check: { type: boolean, default: true }
+      run_ruff-format: { type: boolean, default: true }
+      run_bandit: { type: boolean, default: true }
+      run_pre-commit: { type: boolean, default: true }
+      python_version: { type: string, default: '3.13' }
+
+env:
+  CACHE_GLOBS: |
+    **/pyproject.toml
+    **/uv.lock
+  ENDPOINT_WHITELIST: >-
+    pypi.org:443
+    github.com:443
+    files.pythonhosted.org:443
+    *.githubusercontent.com:443
+    *.github.com:443
+
+jobs:
+  ssort:
+    if: ${{ inputs.run_ssort }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+        with:
+          python-version: ${{ inputs.python_version }}
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --group lint
+        env:
+          UV_NO_DEFAULT_GROUPS: true
+
+      - run: >-
+          uv run
+          ssort
+          --check
+          --diff .
+
+  mypy:
+    if: ${{ inputs.run_mypy }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+        with:
+          python-version: ${{ inputs.python_version }}
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --group types
+        env:
+          UV_NO_DEFAULT_GROUPS: true
+
+      - id: cache-mypy
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        with:
+          path: .mypy_cache
+          key: ${{ runner.os }}-mypy-${{ hashFiles('pyproject.toml') }}
+
+      - run: mypy ${{ inputs.src_folder }}
+
+  ruff-check:
+    if: ${{ inputs.run_ruff-check }}
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
+    steps:
+      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+        with:
+          python-version: ${{ inputs.python_version }}
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --group lint
+        env:
+          UV_NO_DEFAULT_GROUPS: true
+
+      - id: cache-ruff
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        with:
+          path: .ruff_cache
+          key: ruff-${{ hashFiles('pyproject.toml') }}
+
+      - id: run-ruff-sarif
+        run: |
+          ruff check --output-format=sarif -o results.sarif .
+
+      - uses: github/codeql-action/upload-sarif@89a39a4e59826350b863aa6b6252a07ad50cf83e
+        if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
+        with:
+          sarif_file: results.sarif
+
+      - id: run-ruff
+        if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
+        run: |
+          ruff check --output-format=github .
+
+  ruff-format:
+    if: ${{ inputs.run_ruff-format }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+        with:
+          python-version: ${{ inputs.python_version }}
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --group lint
+        env:
+          UV_NO_DEFAULT_GROUPS: true
+
+      - id: cache-ruff
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        with:
+          path: .ruff_cache
+          key: ruff-${{ hashFiles('pyproject.toml') }}
+
+      - id: run-ruff
+        run: ruff format --diff .
+
+  bandit:
+    if: ${{ inputs.run_bandit }}
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
+    steps:
+      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+        with:
+          python-version: ${{ inputs.python_version }}
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --group security
+        env:
+          UV_NO_DEFAULT_GROUPS: true
+
+      - id: run-bandit-sarif
+        run: bandit --confidence-level 'medium' --severity-level 'medium' --recursive '${{ inputs.src_folder }}' --format 'sarif' --output 'results.sarif'
+
+      - uses: github/codeql-action/upload-sarif@89a39a4e59826350b863aa6b6252a07ad50cf83e
+        if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
+        with:
+          sarif_file: results.sarif
+
+      - id: run-bandit
+        if: failure() && contains('["failure"]', steps.run-bandit-sarif.outcome)
+        run: bandit --confidence-level 'medium' --severity-level 'medium' --recursive '${{ inputs.src_folder }}'
+
+  pre-commit:
+    if: ${{ inputs.run_pre-commit }}
+
+    runs-on: ubuntu-latest
+
+    needs:
+      - bandit
+      - ruff-check
+      - ruff-format
+      - ssort
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: proxy.golang.org:443 ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+        with:
+          python-version: ${{ inputs.python_version }}
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --group pre-commit
+        env:
+          UV_NO_DEFAULT_GROUPS: true
+
+      - id: cache-pre-commit
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        with:
+          path: .pre-commit-cache
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}
+
+      - run: pre-commit run --all-files
+        env:
+          PRE_COMMIT_HOME: .pre-commit-cache
