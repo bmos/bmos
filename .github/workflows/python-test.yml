@@ -85,6 +85,7 @@ jobs:
       - run: pytest ${{ inputs.test_folder }}
         env:
           COVERAGE_FILE: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}
+          PLAYWRIGHT_BROWSERS_PATH: .patchright_cache
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
