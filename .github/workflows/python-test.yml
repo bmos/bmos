@@ -71,7 +71,7 @@ jobs:
           path: .patchright_cache
           key: patchright-${{ matrix.os }}-${{ hashFiles('pyproject.toml') }}
 
-      - run: patchright install --with-deps
+      - run: uv run patchright install --with-deps
         if: ${{ inputs.install_patchright }}
         env:
           PLAYWRIGHT_BROWSERS_PATH: .patchright_cache
