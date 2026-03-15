@@ -89,7 +89,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .mypy_cache
-          key: ${{ runner.os }}-mypy-${{ hashFiles('pyproject.toml') }}
+          key: mypy-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
 
       - run: mypy ${{ inputs.src_folder }}
 
@@ -127,7 +127,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
-          key: ruff-${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff-sarif
         run: |
@@ -174,7 +174,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
-          key: ruff-${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff
         run: ruff format --diff .
@@ -261,7 +261,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pre-commit-cache
-          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}
+          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml', 'pyproject.toml') }}
 
       - run: pre-commit run --all-files
         env:
