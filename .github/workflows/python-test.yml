@@ -67,6 +67,8 @@ jobs:
 
       - run: uv run patchright install --with-deps
         if: ${{ inputs.install_patchright }}
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: .patchright_cache
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -77,6 +79,7 @@ jobs:
       - run: pytest ${{ inputs.test_folder }}
         env:
           COVERAGE_FILE: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}
+          PLAYWRIGHT_BROWSERS_PATH: .patchright_cache
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
