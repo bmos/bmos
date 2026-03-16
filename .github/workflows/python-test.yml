@@ -73,7 +73,7 @@ jobs:
           key: patchright-${{ matrix.os }}-${{ hashFiles('pyproject.toml') }}
 
       - run: uv run patchright install --with-deps
-        if: ${{ inputs.install_patchright && steps.cache-patchright.outputs.cache-hit != 'true' }}
+        if: ${{ inputs.install_patchright }}
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
