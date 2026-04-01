@@ -86,7 +86,7 @@ jobs:
           UV_NO_DEFAULT_GROUPS: true
 
       - id: cache-mypy
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .mypy_cache
           key: mypy-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
@@ -124,7 +124,7 @@ jobs:
           UV_NO_DEFAULT_GROUPS: true
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
           key: ruff-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
@@ -171,7 +171,7 @@ jobs:
           UV_NO_DEFAULT_GROUPS: true
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
           key: ruff-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
@@ -258,7 +258,7 @@ jobs:
           UV_NO_DEFAULT_GROUPS: true
 
       - id: cache-pre-commit
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pre-commit-cache
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml', 'pyproject.toml') }}
