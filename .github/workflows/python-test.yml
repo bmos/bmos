@@ -43,7 +43,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: ${{ !inputs.install_patchright }}
           egress-policy: ${{ !inputs.install_patchright && 'block' || 'audit' }}
@@ -103,7 +103,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
