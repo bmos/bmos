@@ -58,7 +58,7 @@ jobs:
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
