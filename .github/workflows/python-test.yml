@@ -72,7 +72,7 @@ jobs:
           UV_NO_DEFAULT_GROUPS: true
           UV_RESOLUTION: ${{ matrix.resolution }}
 
-      - run: uv run patchright install chrome --with-deps
+      - run: patchright install chrome --with-deps
         if: ${{ inputs.install_patchright }}
 
       - id: cache-pytest
@@ -81,7 +81,7 @@ jobs:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
 
-      - run: uv run pytest ${{ inputs.test_folder }}
+      - run: pytest ${{ inputs.test_folder }}
         env:
           COVERAGE_FILE: .coverage.${{ env.RUN_KEY }}
 
