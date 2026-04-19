@@ -23,6 +23,8 @@ env:
     *.githubusercontent.com:443
     *.github.com:443
 
+permissions: read-all
+
 jobs:
   pytest:
     strategy:
@@ -38,9 +40,6 @@ jobs:
           - lowest-direct
 
     runs-on: ${{ matrix.os }}
-
-    permissions:
-      contents: write
 
     steps:
       - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
@@ -93,6 +92,7 @@ jobs:
           name: coverage-${{ env.RUN_KEY }}
           path: .coverage.${{ env.RUN_KEY }}
           include-hidden-files: true
+          retention-days: 1
 
   coverage:
     if: ${{ inputs.run_coverage }}
