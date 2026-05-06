@@ -47,7 +47,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --group lint
         env:
           UV_NO_DEFAULT_GROUPS: true
@@ -79,7 +78,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --group types
         env:
           UV_NO_DEFAULT_GROUPS: true
@@ -117,7 +115,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --group lint
         env:
           UV_NO_DEFAULT_GROUPS: true
@@ -164,7 +161,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --group lint
         env:
           UV_NO_DEFAULT_GROUPS: true
@@ -203,7 +199,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --group security
         env:
           UV_NO_DEFAULT_GROUPS: true
@@ -248,7 +243,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --group pre-commit
         env:
           UV_NO_DEFAULT_GROUPS: true
