@@ -63,7 +63,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --group ${{ inputs.run_coverage && 'test-coverage' || 'test' }}
         env:
           UV_NO_DEFAULT_GROUPS: true
