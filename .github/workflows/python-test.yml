@@ -74,10 +74,13 @@ jobs:
           UV_NO_DEFAULT_GROUPS: true
           UV_RESOLUTION: ${{ matrix.resolution }}
 
-      - run: patchright install chrome --with-deps
+      - run: patchright install-deps
         if: ${{ inputs.install_patchright }}
 
-      - run: patchright install chromium-headless-shell --with-deps
+      - run: patchright install chrome
+        if: ${{ inputs.install_patchright }}
+
+      - run: patchright install chromium-headless-shell
         if: ${{ inputs.install_patchright }}
 
       - id: cache-pytest
