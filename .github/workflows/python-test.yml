@@ -77,10 +77,7 @@ jobs:
       - run: patchright install-deps
         if: ${{ inputs.install_patchright }}
 
-      - run: patchright install chrome
-        if: ${{ inputs.install_patchright }}
-
-      - run: patchright install chromium-headless-shell
+      - run: patchright install
         if: ${{ inputs.install_patchright }}
 
       - id: cache-pytest
