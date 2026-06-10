@@ -124,6 +124,7 @@ jobs:
 
       - id: coverage_comment
         uses: py-cov-action/python-coverage-comment-action@63f52f4fbbffada6e8dee8ec432de7e01df9ba79
+        if: github.event_name != 'workflow_dispatch'
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_COVERAGE_FILES: true
