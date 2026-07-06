@@ -156,7 +156,7 @@ jobs:
 
       - id: run-ruff-sarif
         run: |
-          ruff check --output-format=sarif --output-file results.sarif .
+          ruff check --output-format sarif --output-file results.sarif
 
       - uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
@@ -166,7 +166,7 @@ jobs:
       - id: run-ruff
         if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
         run: |
-          ruff check --output-format=github .
+          ruff check --output-format github
 
   ruff-format:
     if: ${{ inputs.run_ruff-format }}
@@ -200,8 +200,19 @@ jobs:
           path: .ruff_cache
           key: ruff-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
 
+      - id: run-ruff-sarif
+        run: |
+          ruff format --preview --output-format sarif > results.sarif
+
+      - uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e
+        if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
+        with:
+          sarif_file: results.sarif
+
       - id: run-ruff
-        run: ruff format --diff .
+        if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
+        run: |
+          ruff format --preview --output-format github
 
   bandit:
     if: ${{ inputs.run_bandit }}
