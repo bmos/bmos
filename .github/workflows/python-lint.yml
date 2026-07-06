@@ -205,23 +205,23 @@ jobs:
           path: .ruff_cache
           key: ruff-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
 
-      - id: run-ruff-sarif
-        env:
-          RUFF_OUTPUT_FORMAT: sarif
-        run: |
-          ruff format --preview > results.sarif
+#      - id: run-ruff-sarif
+#        env:
+#          RUFF_OUTPUT_FORMAT: sarif
+#        run: |
+#          ruff format --preview > results.sarif
 
-      - uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e
-        if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
-        with:
-          sarif_file: results.sarif
+#      - uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e
+#        if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
+#        with:
+#          sarif_file: results.sarif
 
       - id: run-ruff
-        if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
-        env:
-          RUFF_OUTPUT_FORMAT: github
+#        if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
+#        env:
+#          RUFF_OUTPUT_FORMAT: github
         run: |
-          ruff format --preview
+          ruff format
 
   bandit:
     if: ${{ inputs.run_bandit }}
