@@ -68,7 +68,7 @@ jobs:
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
-          uv sync
+          uv pip install .
           --group ${{ inputs.run_coverage && 'test-coverage' || 'test' }}
         env:
           UV_NO_DEFAULT_GROUPS: true
