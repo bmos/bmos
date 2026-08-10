@@ -17,7 +17,7 @@ env:
     **/uv.lock
   ENDPOINT_WHITELIST: >-
     ocsp2.g.aaplimg.com:443
-    releases.astral.sh
+    releases.astral.sh:443
     ocsp.comodoca.com:80
     ocsp.comodoca.com:443
     ocsp.digicert.com:80
