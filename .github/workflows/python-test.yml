@@ -22,7 +22,6 @@ env:
     files.pythonhosted.org:443
     *.githubusercontent.com:443
     *.github.com:443
-    44.239.242.181  # seems necessary for astral-sh/setup-uv sometimes :ugh:
 
 concurrency:
   group: >-
