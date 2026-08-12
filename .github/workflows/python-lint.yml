@@ -5,8 +5,8 @@ on:
     inputs:
       src_folder: { type: string, default: 'src' }
       run_ssort: { type: boolean, default: true }
-      run_ty: { type: boolean, default: false }
-      run_mypy: { type: boolean, default: true }
+      run_ty: { type: boolean, default: true }
+      run_mypy: { type: boolean, default: false }
       run_ruff-check: { type: boolean, default: true }
       run_ruff-format: { type: boolean, default: true }
       run_bandit: { type: boolean, default: true }
