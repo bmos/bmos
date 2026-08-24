@@ -57,7 +57,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: ${{ !inputs.install_patchright }}
-          egress-policy: ${{ !inputs.install_patchright && 'block' || 'audit' }}
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
