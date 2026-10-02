@@ -12,9 +12,6 @@ on:
         default: "['3.11', '3.12', '3.13', '3.14']"
 
 env:
-  CACHE_GLOBS: |
-    **/pyproject.toml
-    **/uv.lock
   ENDPOINT_WHITELIST: >-
     ocsp2.g.aaplimg.com:443
     releases.astral.sh:443
@@ -73,7 +70,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv pip install .
