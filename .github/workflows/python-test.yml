@@ -13,20 +13,19 @@ on:
 
 env:
   ENDPOINT_WHITELIST: >-
-    ocsp2.g.aaplimg.com:443
-    releases.astral.sh:443
-    ocsp.comodoca.com:80
-    ocsp.comodoca.com:443
+    # macOS
+    *.pool.ntp.org
+    ocsp.comodoca.com
     ocsp.digicert.com:80
-    raw.githubusercontent.com:443
-    release-assets.githubusercontent.com:443
-    api.github.com:443
-    github.com:443
-    *.pool.ntp.org:123
-    *.pool.ntp.org:443
-    pypi.org:443
-    files.pythonhosted.org:443
     ocsp.sectigo.com:80
+    ocsp2.g.aaplimg.com:443
+    # Standard
+    *.github.com:443
+    *.githubusercontent.com:443
+    files.pythonhosted.org:443
+    github.com:443
+    pypi.org:443
+    releases.astral.sh:443
 
 concurrency:
   group: >-
