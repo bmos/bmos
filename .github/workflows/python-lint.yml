@@ -14,9 +14,6 @@ on:
       python_version: { type: string, default: '3.13' }
 
 env:
-  CACHE_GLOBS: |
-    **/pyproject.toml
-    **/uv.lock
   ENDPOINT_WHITELIST: >-
     pypi.org:443
     github.com:443
@@ -44,7 +41,6 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv sync
@@ -75,7 +71,6 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv sync
@@ -103,7 +98,6 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv sync
@@ -140,7 +134,6 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv sync
@@ -191,7 +184,6 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv sync
@@ -244,7 +236,6 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv sync
@@ -288,7 +279,6 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv sync
