@@ -41,6 +41,7 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -71,6 +72,7 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -98,6 +100,7 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -184,6 +187,7 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -236,6 +240,7 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
           activate-environment: true
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
