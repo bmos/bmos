@@ -69,6 +69,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv pip install .
