@@ -9,3 +9,10 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      actions-up-down-artifact:
+        patterns:
+          - 'actions/*-artifact'
+      actions-codeql:
+        patterns:
+          - 'github/codeql-action/*'
