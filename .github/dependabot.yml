@@ -13,6 +13,6 @@ updates:
       actions-up-down-artifact:
         patterns:
           - 'actions/*-artifact'
-      actions-codeql:
+      github-codeql-action:
         patterns:
           - 'github/codeql-action/*'
